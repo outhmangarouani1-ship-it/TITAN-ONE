@@ -154,6 +154,46 @@ Titan_GetATR(int length) =>
 
 Titan_GetAverageRange(int length) =>
     ta.sma(Titan_GetRange(), length)
+//══════════════════════════════════════════════════════════════
+// MODULE 03 : ADAPTIVE SWING ENGINE
+//══════════════════════════════════════════════════════════════
+
+//--------------------------------------------------------------
+// Inputs
+//--------------------------------------------------------------
+
+groupSwing = "Adaptive Swing"
+
+swingATRLength = input.int(
+     14,
+     "ATR Length",
+     minval = 1,
+     group = groupSwing)
+
+swingStrength = input.float(
+     1.5,
+     "Swing Strength",
+     minval = 0.5,
+     step = 0.1,
+     group = groupSwing)
+
+//--------------------------------------------------------------
+// Adaptive Threshold
+//--------------------------------------------------------------
+
+float swingThreshold =
+    Titan_GetATR(swingATRLength) * swingStrength
+//--------------------------------------------------------------
+// Strong Candle Detection
+//--------------------------------------------------------------
+
+bool Titan_IsStrongBullish() =>
+    Titan_IsBullish() and
+    Titan_GetBody() >= swingThreshold
+
+bool Titan_IsStrongBearish() =>
+    Titan_IsBearish() and
+    Titan_GetBody() >= swingThreshold
 //--------------------------------------------------------------
 // Debug View
 //--------------------------------------------------------------
