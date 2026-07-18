@@ -1,0 +1,10 @@
+//@version=6
+indicator("TITAN ONE", overlay = true)
+
+//══════════════════════════════════════════════
+// TITAN ONE
+// Alpha 0.1
+// Build 0001
+//══════════════════════════════════════════════
+
+// Project initialization
