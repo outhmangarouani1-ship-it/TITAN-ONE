@@ -143,9 +143,7 @@ Titan_IsDoji() =>
 //--------------------------------------------------------------
 
 Titan_GetBodyPercent() =>
-    Titan_GetRange() > 0
-        ? Titan_GetBody() / Titan_GetRange()
-        : 0.0
+    Titan_GetRange() > 0 ? Titan_GetBody() / Titan_GetRange() : 0.0
 
 //--------------------------------------------------------------
 // Volatility
