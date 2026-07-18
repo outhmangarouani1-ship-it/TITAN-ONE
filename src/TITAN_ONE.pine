@@ -105,6 +105,57 @@ float atr14 = ta.atr(14)
 
 float avgRange =
      ta.sma(candleRange, 20)
+//══════════════════════════════════════════════════════════════
+// DATA ENGINE API
+//══════════════════════════════════════════════════════════════
+
+//--------------------------------------------------------------
+// Basic Candle Functions
+//--------------------------------------------------------------
+
+Titan_GetRange() =>
+    high - low
+
+Titan_GetBody() =>
+    math.abs(close - open)
+
+Titan_GetUpperWick() =>
+    high - math.max(open, close)
+
+Titan_GetLowerWick() =>
+    math.min(open, close) - low
+
+//--------------------------------------------------------------
+// Candle Classification
+//--------------------------------------------------------------
+
+Titan_IsBullish() =>
+    close > open
+
+Titan_IsBearish() =>
+    close < open
+
+Titan_IsDoji() =>
+    Titan_GetBody() <= Titan_GetRange() * 0.10
+
+//--------------------------------------------------------------
+// Ratios
+//--------------------------------------------------------------
+
+Titan_GetBodyPercent() =>
+    Titan_GetRange() > 0
+        ? Titan_GetBody() / Titan_GetRange()
+        : 0.0
+
+//--------------------------------------------------------------
+// Volatility
+//--------------------------------------------------------------
+
+Titan_GetATR(int length) =>
+    ta.atr(length)
+
+Titan_GetAverageRange(int length) =>
+    ta.sma(Titan_GetRange(), length)
 //--------------------------------------------------------------
 // Debug View
 //--------------------------------------------------------------
@@ -114,9 +165,9 @@ if showDebug and barstate.islast
          bar_index,
          low,
          "DATA ENGINE\n" +
-         "Range : " + str.tostring(candleRange) +
-         "\nBody : " + str.tostring(candleBody) +
-         "\nATR : " + str.tostring(atr14),
+         "Range : " + str.tostring(Titan_GetRange()) +
+         "\nBody : " + str.tostring(Titan_GetBody()) +
+         "\nATR : " + str.tostring(Titan_GetATR(14)),
          style = label.style_label_up,
          color = color.gray,
          textcolor = color.white)
