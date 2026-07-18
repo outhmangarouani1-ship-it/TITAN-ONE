@@ -1,10 +1,66 @@
 //@version=6
-indicator("TITAN ONE", overlay = true)
-
-//══════════════════════════════════════════════
+//══════════════════════════════════════════════════════════════
 // TITAN ONE
-// Alpha 0.1
-// Build 0001
-//══════════════════════════════════════════════
+// Institutional Trading Framework
+//
+// Version : Alpha 0.1
+// Build   : 0001
+// Module  : Foundation
+//
+// Copyright (c) 2026
+//══════════════════════════════════════════════════════════════
 
-// Project initialization
+indicator(
+     title = "TITAN ONE",
+     shorttitle = "TITAN",
+     overlay = true,
+     max_labels_count = 500,
+     max_lines_count = 500,
+     max_boxes_count = 500)
+
+//══════════════════════════════════════════════════════════════
+// FOUNDATION
+//══════════════════════════════════════════════════════════════
+
+const string TITAN_VERSION = "Alpha 0.1"
+const string TITAN_BUILD   = "0001"
+
+//══════════════════════════════════════════════════════════════
+// INPUTS
+//══════════════════════════════════════════════════════════════
+
+groupGeneral = "General"
+
+showDebug = input.bool(
+     false,
+     "Debug Mode",
+     group = groupGeneral)
+
+showInfo = input.bool(
+     true,
+     "Show Version",
+     group = groupGeneral)
+
+//══════════════════════════════════════════════════════════════
+// COLORS
+//══════════════════════════════════════════════════════════════
+
+colorBull = color.rgb(0, 200, 120)
+colorBear = color.rgb(220, 70, 70)
+colorInfo = color.rgb(50, 150, 255)
+
+//══════════════════════════════════════════════════════════════
+// INITIALIZATION
+//══════════════════════════════════════════════════════════════
+
+if barstate.islast and showInfo
+    label.new(
+         bar_index,
+         high,
+         "TITAN ONE\n" +
+         TITAN_VERSION +
+         "\nBuild " +
+         TITAN_BUILD,
+         style = label.style_label_down,
+         color = colorInfo,
+         textcolor = color.white)
