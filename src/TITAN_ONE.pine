@@ -64,3 +64,59 @@ if barstate.islast and showInfo
          style = label.style_label_down,
          color = colorInfo,
          textcolor = color.white)
+//══════════════════════════════════════════════════════════════
+// MODULE 02 : DATA ENGINE
+//══════════════════════════════════════════════════════════════
+
+//--------------------------------------------------------------
+// Candle Metrics
+//--------------------------------------------------------------
+
+float candleRange = high - low
+float candleBody  = math.abs(close - open)
+
+float upperWick = high - math.max(open, close)
+float lowerWick = math.min(open, close) - low
+
+//--------------------------------------------------------------
+// Candle Ratios
+//--------------------------------------------------------------
+
+float bodyPercent =
+     candleRange > 0
+     ? candleBody / candleRange
+     : 0.0
+
+//--------------------------------------------------------------
+// Candle Classification
+//--------------------------------------------------------------
+
+bool isBull = close > open
+bool isBear = close < open
+
+bool isDoji =
+     candleBody <= candleRange * 0.10
+
+//--------------------------------------------------------------
+// Volatility
+//--------------------------------------------------------------
+
+float atr14 = ta.atr(14)
+
+float avgRange =
+     ta.sma(candleRange, 20)
+//--------------------------------------------------------------
+// Debug View
+//--------------------------------------------------------------
+
+if showDebug and barstate.islast
+    label.new(
+         bar_index,
+         low,
+         "DATA ENGINE\n" +
+         "Range : " + str.tostring(candleRange) +
+         "\nBody : " + str.tostring(candleBody) +
+         "\nATR : " + str.tostring(atr14),
+         style = label.style_label_up,
+         color = color.gray,
+         textcolor = color.white)
