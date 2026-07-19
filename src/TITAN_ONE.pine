@@ -154,6 +154,53 @@ Titan_GetATR(int length) =>
 
 Titan_GetAverageRange(int length) =>
     ta.sma(Titan_GetRange(), length)
+//══════════════════════════════════════════════════════════════
+// MODULE 03 : MARKET STATE ENGINE
+// Version : 0.1
+// Status  : Development
+// Depends : Data Engine
+//══════════════════════════════════════════════════════════════
+
+//--------------------------------------------------------------
+// Market State Constants
+//--------------------------------------------------------------
+
+// Trend
+const int TITAN_TREND_BEARISH = -1
+const int TITAN_TREND_NEUTRAL = 0
+const int TITAN_TREND_BULLISH = 1
+
+// Volatility
+const int TITAN_VOL_LOW = 0
+const int TITAN_VOL_NORMAL = 1
+const int TITAN_VOL_HIGH = 2
+
+// Momentum
+const int TITAN_MOMENTUM_WEAK = 0
+const int TITAN_MOMENTUM_MEDIUM = 1
+const int TITAN_MOMENTUM_STRONG = 2
+//--------------------------------------------------------------
+// Market State Variables
+//--------------------------------------------------------------
+
+var int titanTrendState = TITAN_TREND_NEUTRAL
+var int titanVolatilityState = TITAN_VOL_NORMAL
+var int titanMomentumState = TITAN_MOMENTUM_MEDIUM
+//--------------------------------------------------------------
+// Trend Evaluation
+//--------------------------------------------------------------
+
+Titan_UpdateTrendState() =>
+
+    if close > ta.sma(close, 50)
+        titanTrendState := TITAN_TREND_BULLISH
+
+    else if close < ta.sma(close, 50)
+        titanTrendState := TITAN_TREND_BEARISH
+
+    else
+        titanTrendState := TITAN_TREND_NEUTRAL
+Titan_UpdateTrendState()
 //--------------------------------------------------------------
 // Debug View
 //--------------------------------------------------------------
