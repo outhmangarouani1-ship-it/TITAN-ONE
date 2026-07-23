@@ -191,28 +191,38 @@ var int titanMomentumState = TITAN_MOMENTUM_MEDIUM
 //--------------------------------------------------------------
 
 Titan_UpdateTrendState() =>
-
     if close > ta.sma(close, 50)
-        titanTrendState := TITAN_TREND_BULLISH
-
+        TITAN_TREND_BULLISH
     else if close < ta.sma(close, 50)
-        titanTrendState := TITAN_TREND_BEARISH
-
+        TITAN_TREND_BEARISH
     else
-        titanTrendState := TITAN_TREND_NEUTRAL
-Titan_UpdateTrendState()
+        TITAN_TREND_NEUTRAL
+
+titanTrendState := Titan_UpdateTrendState()
+//--------------------------------------------------------------
+// Volatility Evaluation
+//--------------------------------------------------------------
+
+Titan_UpdateVolatilityState() =>
+    float currentATR = ta.atr(14)
+    float averageATR = ta.sma(ta.atr(14), 50)
+
+    if currentATR > averageATR * 1.20
+        TITAN_VOL_HIGH
+    else if currentATR < averageATR * 0.80
+        TITAN_VOL_LOW
+    else
+        TITAN_VOL_NORMAL
+
+titanVolatilityState := Titan_UpdateVolatilityState()
 //--------------------------------------------------------------
 // Debug View
 //--------------------------------------------------------------
 
-if showDebug and barstate.islast
-    label.new(
-         bar_index,
-         low,
-         "DATA ENGINE\n" +
-         "Range : " + str.tostring(Titan_GetRange()) +
-         "\nBody : " + str.tostring(Titan_GetBody()) +
-         "\nATR : " + str.tostring(Titan_GetATR(14)),
-         style = label.style_label_up,
-         color = color.gray,
-         textcolor = color.white)
+"DATA ENGINE\n" +
+"Range : " + str.tostring(Titan_GetRange()) +
+"\nBody : " + str.tostring(Titan_GetBody()) +
+"\nATR : " + str.tostring(Titan_GetATR(14)) +
+"\nTrend : " + str.tostring(titanTrendState) +
+"\nVolatility : " + str.tostring(titanVolatilityState) +
+"\nMomentum : " + str.tostring(titanMomentumState)
